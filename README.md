@@ -16,6 +16,13 @@
 🚧 **(Under development)** 🚧
 
 
+# Utilities
+
+* Short-range order (SRO) parameters calculation
+* Markov Chain Monte Carlo (MCMC) simulation framework
+* Special Quasirandom Structure (SQS) calculation
+
+
 # Installation
 
 ## From Pip
