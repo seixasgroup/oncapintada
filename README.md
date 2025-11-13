@@ -16,11 +16,16 @@
 🚧 **(Under development)** 🚧
 
 
-# Utilities
-
 * Short-range order (SRO) parameters calculation
+  - Warren-Cowley SRO parameter
+  - Pairwise SRO parameter
+  - Generalized Multicomponent SRO parameter
 * Markov Chain Monte Carlo (MCMC) simulation framework
+  - Chemical Swap MCMC
+  - Basin Hopping simulation
 * Special Quasirandom Structure (SQS) calculation
+  - Random structure generator
+  - SQS MCMC generator
 
 
 # Installation
