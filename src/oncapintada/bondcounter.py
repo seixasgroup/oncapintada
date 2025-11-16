@@ -74,10 +74,10 @@ class BondCounter:
         subset_indices: Optional[Union[Iterable[int], np.ndarray]] = None,
     ):
         if atoms is None and xyz_path is None:
-            raise ValueError("Forneça `atoms` ou `xyz_path`.")
+            raise ValueError("Provide `atoms` or `xyz_path`.")
         self.atoms: Atoms = atoms if atoms is not None else read(xyz_path)
         self.cutoff: float = float(cutoff)
-        self._subset_mask: Optional[np.ndarray] = None  # Máscara para o subconjunto de átomos
+        self._subset_mask: Optional[np.ndarray] = None  # Mask for subset of atoms
 
         if subset_symbols is not None:
             self.subset_from_symbols(subset_symbols)
