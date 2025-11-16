@@ -50,3 +50,6 @@ def test_set_subset_with_numpy_array_and_duplicates(water_atoms):
     counter = BondCounter(atoms=water_atoms)
     counter.set_subset(np.array([1, 1]))
     assert np.array_equal(counter._subset_mask, np.array([False, True, False]))
+
+
+
