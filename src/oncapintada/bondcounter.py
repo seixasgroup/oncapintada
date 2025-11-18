@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# file: _version.py
+# file: bondcounter.py
 
 # This code is part of Onça-pintada.
 # MIT License
@@ -51,7 +51,6 @@ class BondCountResult:
             pd.DataFrame: A DataFrame with columns "pair", "count", and "probability".
         """
 
-
         df = pd.DataFrame(
             [{"pair": f"{a}-{b}", "count": n, "probability": n / self.total if self.total > 0 else 0} for (a, b), n in sorted(self.counts.items())]
         )
@@ -76,7 +75,7 @@ class BondCounter:
         if atoms is None and xyz_path is None:
             raise ValueError("Provide `atoms` or `xyz_path`.")
         self.atoms: Atoms = atoms if atoms is not None else read(xyz_path)
-        self.cutoff: float = float(cutoff)
+        self.cutoff: float = float(cutoff)              # Cutoff distance for bond detection
         self._subset_mask: Optional[np.ndarray] = None  # Mask for subset of atoms
 
         if subset_symbols is not None:
