@@ -345,7 +345,7 @@ class Lattice2D:
             raise RuntimeError("Lattice not built. Run build_lattice() first.")
             
         sns.set_theme(style="whitegrid", palette="muted")
-        fig, ax = plt.subplots(figsize=(max(self.M, 8), max(self.N, 6)))
+        fig, ax = plt.subplots(figsize=(8, 6))
         
         # Heuristic for skipping "wrapped" bonds in single-cell PBC plots
         max_bond_dist_sq = (1.5 * max(self.a, self.b))**2
@@ -455,25 +455,31 @@ if __name__ == "__main__":
     # # The plot shows the 3-connected topology
     # honey_lattice.plot_lattice(show_atom_indices=True)
 
-    # # --- Example 3: Distorted Triangular (A-B Alloy) ---
-    print("\n--- Example 3: 10x10 Distorted Triangular (a=1, b=1.3) ---")
-    N_tri, M_tri = 10, 10
+    # # --- Example 3: Triangular lattice (A-B Alloy) ---
+    print("\n--- Example 3: 2x2 Triangular lattice (a=2.0) ---")
+    N_tri, M_tri = 2, 2
     random_alloy = np.random.choice(['Au', 'Pt'], size=(N_tri, M_tri))
     
     dist_tri_lattice = Lattice2D(N=N_tri, M=M_tri, 
-                                 topology='distorted_triangular', 
-                                 a=1.0, b=1.3, pbc=True)
+                                 topology='triangular', 
+                                 a=2.0, pbc=True)
     dist_tri_lattice.build_lattice(atom_types=random_alloy)
-    dist_tri_lattice.plot_lattice(show_atom_indices=False, show_bonds=False)
+    dist_tri_lattice.plot_lattice(show_atom_indices=False, show_bonds=True, show_periodic_images=True)
 
-    # --- Example 4: Energy Calculation for Distorted Lattice ---
-    print("\n--- Example 4: Energy Calculation for Distorted Lattice ---")
+    # --- Example 4: Energy Calculation for Triangular Lattice ---
+    print("\n--- Example 4: Energy Calculation for Triangular Lattice ---")
     
     # Define different energies for horizontal and diagonal bonds
+    # energies = {
+    #     'Au-Au_h': -1.0, 'Au-Au_d': -0.8,
+    #     'Pt-Pt_h': -0.9, 'Pt-Pt_d': -0.5,
+    #     'Au-Pt_h': -2.0, 'Au-Pt_d': -1.8, # A-B bonds are favorable
+    # }
+
     energies = {
-        'Au-Au_h': -1.0, 'Au-Au_d': -0.8,
-        'Pt-Pt_h': -0.9, 'Pt-Pt_d': -0.5,
-        'Au-Pt_h': -2.0, 'Au-Pt_d': -1.8, # A-B bonds are favorable
+        'Au-Au': -1.0,
+        'Pt-Pt': -0.9,
+        'Au-Pt': -2.0,
     }
     
     try:
