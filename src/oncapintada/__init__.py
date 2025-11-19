@@ -47,10 +47,11 @@ from yaml import __file__ as __yaml_file__
 from ase.parallel import parprint as print
 
 from ._version import __version__
-from .bondcounter import BondCounter
+from .bonds_counter import BondsCounter
+from .bonds_model import BondsModel
 
 
 
-__all__ = ['BondCounter']
+__all__ = ['BondsCounter', 'BondsModel', '__version__']
 
 

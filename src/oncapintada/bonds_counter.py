@@ -58,7 +58,7 @@ class BondCountResult:
         return df
 
 
-class BondCounter:
+class BondsCounter:
     """Count bonded atom pairs within an ASE Atoms object or XYZ file, optionally restricting
     the analysis to a subset of atoms defined by element symbols or explicit indices. The class
     initializes the atomic structure, enforces a cutoff distance for bond detection, configures
@@ -66,7 +66,7 @@ class BondCounter:
 
     def __init__(
         self,
-        xyz_path: Optional[str] = None,          # Trajectory to an .xyz file
+        xyz_path: Optional[str] = None,          # xyz file
         atoms: Optional[Atoms] = None,           # Pre-loaded ASE Atoms object. If provided, xyz_path is ignored.
         cutoff: float = 3.5,                     # Cutoff radius in angstroms (default: 3.5 Å).
         subset_symbols: Optional[str] = None,    # Element symbols defining the subset of atoms to consider.
@@ -79,13 +79,15 @@ class BondCounter:
         self._subset_mask: Optional[np.ndarray] = None  # Mask for subset of atoms
 
         if subset_symbols is not None:
-            self.subset_from_symbols(subset_symbols)
+            self.set_subset_from_symbols(subset_symbols)
         elif subset_indices is not None:
             self.set_subset(subset_indices)
         else:
             self.set_subset(None)
         
         self.target_pairs: set[Pair] = self.get_target_pairs()
+
+        # self.results: Optional[Dict] = None
 
     def set_subset(self, subset: Optional[Union[Iterable[int], np.ndarray]]) -> None:
         """Set or reset the subset mask for the current atoms selection.
@@ -106,7 +108,7 @@ class BondCounter:
             mask[idx] = True
             self._subset_mask = mask
 
-    def subset_from_symbols(self, symbols: Iterable[str]) -> None:
+    def set_subset_from_symbols(self, symbols: Iterable[str]) -> None:
         """
         Update the internal subset mask to include only atoms whose chemical symbols
         appear in the provided iterable of symbols, effectively filtering the structure
