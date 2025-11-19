@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "oncapintada"
-version = "25.11.3"
+dynamic = ["version"] # version = "25.11.3"
 authors = [
   { name="Leandro Seixas", email="leandro.seixas@proton.me" },
 ]
@@ -32,3 +32,7 @@ classifiers = [
 
 [project.urls]
 "Homepage" = "https://github.com/seixasgroup/oncapintada"
+
+[tool.hatch.version]
+source = "file"
+path = "src/oncapintada/_version.py"
