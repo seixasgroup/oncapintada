@@ -184,3 +184,45 @@ class BondsCounter:
     def bonds_dataframe(self) -> pd.DataFrame:
         """Return the count of bonds as a pandas DataFrame produced by `count_bonds`."""
         return self.count_bonds().to_dataframe()
+
+
+    def counter_concentrations(self) -> pd.DataFrame:
+        """Return the concentrations of each element in the selected subset of atoms as a pandas DataFrame."""
+        if self._subset_mask is None:
+            chem = np.array(self.atoms.get_chemical_symbols())
+        else:
+            chem = np.array(self.atoms.get_chemical_symbols())[self._subset_mask]
+        unique, counts = np.unique(chem, return_counts=True)
+        total = len(chem)
+        data = {
+            "element": unique,
+            "count": counts,
+            "concentration": counts / total if total > 0 else 0,
+        }
+        df = pd.DataFrame(data)
+        return df
+    
+    
+    def  warren_cowley_parameters(self) -> pd.DataFrame:
+        """Calculate and return the Warren-Cowley short-range order parameters for the bonded pairs
+        in the selected subset of atoms as a pandas DataFrame.
+        Returns:
+            pd.DataFrame: A DataFrame with columns "pair" and "warren_cowley".
+        """
+
+        bond_counts = self.count_bonds()
+        total_bonds = bond_counts.total
+        concentrations_df = self.counter_concentrations()
+        concentrations = dict(zip(concentrations_df["element"], concentrations_df["concentration"]))
+
+        data = []
+        for (a, b), n_ab in sorted(bond_counts.counts.items()):
+            c_a = concentrations.get(a, 0)
+            c_b = concentrations.get(b, 0)
+            p_ab = n_ab / total_bonds if total_bonds > 0 else 0
+            expected_p_ab = 2 * c_a * c_b if a != b else c_a * c_a
+            alpha_ab = 1 - (p_ab / expected_p_ab) if expected_p_ab > 0 else 0
+            data.append({"pair": f"{a}-{b}", "warren_cowley": alpha_ab})
+
+        df = pd.DataFrame(data)
+        return df
