@@ -58,4 +58,3 @@ __all__ = ['__version__',                                           # from _vers
            'BondsModel',                                            # from bonds_model.py
            'DisorderedAlloyGenerator', 'DisorderedAlloyConfig'      # from disordered_alloy.py
           ]
-

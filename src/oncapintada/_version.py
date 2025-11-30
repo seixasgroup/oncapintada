@@ -24,4 +24,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ ="25.11.8"  # YYYY.MM.incremental
+__version__ ="25.11.9"  # YYYY.MM.incremental
