@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# file: bondcounter.py
+# file: bonds_counter.py
 
 # This code is part of Onça-pintada.
 # MIT License

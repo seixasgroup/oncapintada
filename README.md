@@ -15,13 +15,10 @@
 
 Onça-pintada (pronounced as OHN-sah peen-TAH-dah) is a python package designed for the analysis and simulation of atomic configurations in materials science. It provides tools to calculate Short-Range Order (SRO) parameters, generate Special Quasirandom Structures (SQS), and perform Monte Carlo Markov Chain (MCMC) simulations for various materials.
 
-* Short-range order (SRO) parameters calculation
-  - Warren-Cowley SRO parameter
-  - Pairwise SRO parameter
-  - Generalized Multicomponent SRO parameter
 * Markov Chain Monte Carlo (MCMC) simulation framework
   - Chemical Swap MCMC
   - Basin Hopping simulation
+  - Molecular Dynamics Monte Carmo (MDMC) simulation
 * Special Quasirandom Structure (SQS) calculation
   - Random structure generator
   - SQS MCMC generator

@@ -52,6 +52,6 @@ from .bonds_model import BondsModel
 
 
 
-__all__ = ['BondsCounter', 'BondsModel', '__version__']
+__all__ = ['BondsCounter', 'BondCountResult', 'BondsModel', '__version__']
 
 
