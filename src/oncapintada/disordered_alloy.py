@@ -36,7 +36,7 @@ from ase.io import read, write
 
 MaskType = Union[str, Sequence[int], Sequence[bool]]
 
-dataclass
+@dataclass
 class DisorderedAlloyConfig:
     """Container for a generated disordered alloy configuration."""
     atoms: Atoms
