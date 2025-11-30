@@ -49,9 +49,13 @@ from ase.parallel import parprint as print
 from ._version import __version__
 from .bonds_counter import BondsCounter
 from .bonds_model import BondsModel
+from .disordered_alloy import DisorderedAlloyGenerator, DisorderedAlloyConfig
 
 
 
-__all__ = ['BondsCounter', 'BondCountResult', 'BondsModel', '__version__']
-
+__all__ = ['__version__',                                           # from _version.py
+           'BondsCounter', 'BondCountResult',                       # from bonds_counter.py
+           'BondsModel',                                            # from bonds_model.py
+           'DisorderedAlloyGenerator', 'DisorderedAlloyConfig'      # from disordered_alloy.py
+          ]
 
