@@ -1,0 +1,7 @@
+* Markov Chain Monte Carlo (MCMC) simulation framework
+  - Chemical Swap MCMC
+  - Basin Hopping simulation
+  - Molecular Dynamics Monte Carlo (MDMC) simulation
+* Special Quasirandom Structure (SQS) calculation
+  - Random structure generator
+  - SQS MCMC generator
