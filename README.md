@@ -13,7 +13,7 @@
 
 # Onça-pintada
 
-Onça-pintada (pronounced as OHN-sah peen-TAH-dah) is a python package designed for the analysis and simulation of atomic configurations in materials science. It provides tools to calculate Short-Range Order (SRO) parameters, generate Special Quasirandom Structures (SQS), and perform Monte Carlo Markov Chain (MCMC) simulations for various materials.
+Onça-pintada (pronounced as OHN-sah peen-TAH-dah) is a toolkit to simulate and analyze alloys from first-principles methods.
 
 # Installation
 

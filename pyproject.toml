@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "oncapintada"
-version = "26.1.0"
+version = "26.3.0"
 authors = [
   { name="Leandro Seixas", email="leandro.seixas@proton.me" },
 ]
-description = "Onça-pintada is a python package designed for the analysis and simulation of atomic configurations in materials science."
+description = "Onça-pintada is a toolkit to simulate and analyze alloys from first-principles methods."
 readme = "README.md"
 license = {file = "LICENSE"} # MIT License
 requires-python = ">=3.10"

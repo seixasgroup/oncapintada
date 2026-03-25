@@ -50,11 +50,13 @@ from ._version import __version__
 from .bonds_counter import BondsCounter
 from .bonds_model import BondsModel
 from .disordered_alloy import DisorderedAlloyGenerator, DisorderedAlloyConfig
+from .thermodynamics import GibbsFreeEnergy, SpinodalCurve, BinodalCurve
 
 
 
 __all__ = ['__version__',                                           # from _version.py
            'BondsCounter', 'BondCountResult',                       # from bonds_counter.py
            'BondsModel',                                            # from bonds_model.py
-           'DisorderedAlloyGenerator', 'DisorderedAlloyConfig'      # from disordered_alloy.py
+           'DisorderedAlloyGenerator', 'DisorderedAlloyConfig',     # from disordered_alloy.py
+           'GibbsFreeEnergy', 'SpinodalCurve', 'BinodalCurve'       # from thermodynamics.py
           ]
