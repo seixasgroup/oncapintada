@@ -12,8 +12,8 @@
 [![License: MIT](https://img.shields.io/github/license/seixasgroup/oncapintada?color=green&style=for-the-badge)](LICENSE)    [![PyPI](https://img.shields.io/pypi/v/oncapintada?color=red&style=for-the-badge)](https://pypi.org/project/oncapintada/)
 
 # Onça-pintada
-
-Onça-pintada (pronounced as OHN-sah peen-TAH-dah) is a toolkit to simulate and analyze alloys from first-principles methods.
+<!-- (pronounced as OHN-sah peen-TAH-dah) -->
+Onça-pintada is a toolkit to simulate and analyze alloys from first-principles methods.
 
 # Installation
 

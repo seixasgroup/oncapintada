@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# file: sqs.py
+# file: qca.py
 
 # This code is part of Onça-pintada.
 # MIT License
@@ -23,3 +23,26 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
+import numpy as np
+import pandas as pd
+
+# Quasichemical Approximation (QCA) for thermodynamic modeling of alloys.
+class QCA:
+    def __init__(self, x_values, t_values):
+        self.x_values = x_values
+        self.t_values = t_values
+
+    def warren_cowley_parameter(self, a, b, x) -> pd.DataFrame:
+        pass
+
+    def get_enthalpy_of_mixing(self, a, b, x) -> pd.DataFrame:
+        pass
+
+    def get_entropy_of_mixing(self, a, b, x) -> pd.DataFrame:
+        pass
+
+    def get_gibbs_free_energy_of_mixing(self, a, b, x) -> pd.DataFrame:
+        pass
+
+

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# file: thermodynamics.py
+# file: phase_diagram.py
 
 # This code is part of Onça-pintada.
 # MIT License
 #
-# Copyright (c) 2025 Leandro Seixas Rocha <leandro.seixas@proton.me> 
+# Copyright (c) 2026 Leandro Seixas Rocha <leandro.seixas@proton.me> 
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,6 @@
 
 import numpy as np
 import pandas as pd
-from ase import Atoms
 
 class PhaseDiagram:
     """
@@ -39,11 +38,11 @@ class PhaseDiagram:
     Main methods:
     - dGdx()                -> returns a DataFrame with the first derivative (∂G/∂x).
     - d2Gdx2()              -> returns a DataFrame with the second derivative (∂²G/∂x²).
-    - spinodal_curve()      -> returns spinodal curve(s) x(T) from sign changes in ∂²G/∂x².
-    - binodal_curve()       -> returns binodal curve(s) x(T) from common tangent construction on G(x, T).
+    - spinodal_curve()      -> returns spinodal curve from sign changes in ∂²G/∂x².
+    - binodal_curve()       -> returns binodal curve from common tangent construction on G(x, T).
     """
 
-    def __init__(self, gibbs_df: pd.DataFrame, x_values=None, temperatures=None, atoms: Atoms | None = None):
+    def __init__(self, gibbs_df: pd.DataFrame, x_values=None, t_values=None):
         """
         Parameters
         ----------
@@ -55,11 +54,9 @@ class PhaseDiagram:
         x_values : array-like, optional
             Values of x corresponding to the index.
             If None, attempts to convert the index labels to float.
-        temperatures : array-like, optional
+        t_values : array-like, optional
             Values of temperatures corresponding to the columns.
             If None, attempts to convert the column labels to float.
-        atoms : ase.Atoms, optional
-            Atoms object associated with the thermodynamic data (optional).
         """
         # Ensure numeric values
         self.gibbs = gibbs_df.astype(float).copy()
@@ -77,19 +74,17 @@ class PhaseDiagram:
             self.gibbs.index = self.x
 
         # Define temperature axis T
-        if temperatures is None:
+        if t_values is None:
             self.T = np.array(self.gibbs.columns, dtype=float)
             self.gibbs.columns = self.T
         else:
-            self.T = np.array(temperatures, dtype=float)
+            self.T = np.array(t_values, dtype=float)
             if len(self.T) != self.gibbs.shape[1]:
                 raise ValueError(
-                    "temperatures must have the same length as the number of columns in gibbs_df."
+                    "t_values must have the same length as the number of columns in gibbs_df."
                 )
             self.gibbs.columns = self.T
 
-        # Optional Atoms object
-        self.atoms = atoms
 
     # ------------------------------------------------------------------
     # First derivative ∂G/∂x
@@ -135,7 +130,7 @@ class PhaseDiagram:
         return d2Gdx2_df
 
     # ------------------------------------------------------------------
-    # Spinodal curve (sign change in second derivative)
+    # Spinodal curve
     # ------------------------------------------------------------------
     def spinodal_curve(self, atol: float = 1e-8) -> pd.DataFrame:
         """

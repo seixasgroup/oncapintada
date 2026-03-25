@@ -4,7 +4,7 @@
 # This code is part of Onça-pintada. 
 # MIT License
 #
-# Copyright (c) 2025 Leandro Seixas Rocha <leandro.seixas@proton.me> 
+# Copyright (c) 2026 Leandro Seixas Rocha <leandro.seixas@proton.me> 
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,8 @@ from ._version import __version__
 from .bonds_counter import BondsCounter
 from .bonds_model import BondsModel
 from .disordered_alloy import DisorderedAlloyGenerator, DisorderedAlloyConfig
-from .thermodynamics import PhaseDiagram
+from .phase_diagram import PhaseDiagram
+from .qca import QCA
 
 
 
@@ -58,5 +59,6 @@ __all__ = ['__version__',                                           # from _vers
            'BondsCounter', 'BondCountResult',                       # from bonds_counter.py
            'BondsModel',                                            # from bonds_model.py
            'DisorderedAlloyGenerator', 'DisorderedAlloyConfig',     # from disordered_alloy.py
-           'PhaseDiagram'                                           # from thermodynamics.py
+           'PhaseDiagram',                                          # from phase_diagram.py
+           'QCA'                                                    # from qca.py
           ]

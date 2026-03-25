@@ -4,7 +4,7 @@
 # This code is part of Onça-pintada.
 # MIT License
 #
-# Copyright (c) 2025 Leandro Seixas Rocha <leandro.seixas@proton.me> 
+# Copyright (c) 2026 Leandro Seixas Rocha <leandro.seixas@proton.me> 
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ ="26.3.5"  # YY.MM.incremental
+__version__ ="26.3.6"  # YY.MM.incremental
