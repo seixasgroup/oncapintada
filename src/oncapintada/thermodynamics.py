@@ -223,13 +223,10 @@ class PhaseDiagram:
                 spinodal_join.append((x2, self.T[iT]))
 
         spinodal_join_df = pd.DataFrame(spinodal_join, columns=["x", "t"])
-        # spinodal_join_df.set_index("t", inplace=True)
+        spinodal_join_df.reset_index(drop=True, inplace=True)
         spinodal_join_df.sort_values(by='x', inplace=True)
 
         return spinodal_join_df
-
-        # spinodal_df = pd.DataFrame(spinodal_points, index=self.gibbs.index, columns=["x1", "x2"])
-        # return spinodal_df
 
 
     # ------------------------------------------------------------------
@@ -304,8 +301,8 @@ class PhaseDiagram:
                 binodal_join.append((x2, T[iT]))
 
 
-        binodal_join_df = pd.DataFrame(binodal_join, columns=["x", "t"], index=True)
-        # binodal_join_df.set_index("t", inplace=True)
+        binodal_join_df = pd.DataFrame(binodal_join, columns=["x", "t"])
+        binodal_join_df.reset_index(drop=True, inplace=True)
         binodal_join_df.sort_values(by='x', inplace=True)
 
         return binodal_join_df
