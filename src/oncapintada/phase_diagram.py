@@ -58,6 +58,13 @@ class PhaseDiagram:
             Values of temperatures corresponding to the columns.
             If None, attempts to convert the column labels to float.
         """
+        
+        if not isinstance(gibbs_df, pd.DataFrame):
+            raise ValueError("gibbs_df must be a pandas DataFrame.")
+        
+        if gibbs_df.empty:
+            raise ValueError("gibbs_df cannot be empty.")
+        
         # Ensure numeric values
         self.gibbs = gibbs_df.astype(float).copy()
 
