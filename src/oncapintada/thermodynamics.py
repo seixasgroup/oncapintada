@@ -222,10 +222,9 @@ class PhaseDiagram:
             if not np.isnan(x2):
                 spinodal_join.append((x2, self.T[iT]))
 
-        spinodal_join_df = pd.DataFrame(spinodal_join, columns=["x", "t"])
-        spinodal_join_df.reset_index(drop=True, inplace=True)
+        spinodal_join_df = pd.DataFrame(spinodal_join, columns=["x", "t"], dtype=np.float64)
         spinodal_join_df.sort_values(by='x', inplace=True)
-
+        spinodal_join_df.reset_index(drop=True, inplace=True)
         return spinodal_join_df
 
 
@@ -301,8 +300,8 @@ class PhaseDiagram:
                 binodal_join.append((x2, T[iT]))
 
 
-        binodal_join_df = pd.DataFrame(binodal_join, columns=["x", "t"])
-        binodal_join_df.reset_index(drop=True, inplace=True)
+        binodal_join_df = pd.DataFrame(binodal_join, columns=["x", "t"], dtype=np.float64)
         binodal_join_df.sort_values(by='x', inplace=True)
+        binodal_join_df.reset_index(drop=True, inplace=True)
 
         return binodal_join_df
