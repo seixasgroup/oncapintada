@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# file: markov_chain.py
+# file: monte_carlo.py
 
 # This code is part of Onça-pintada.
 # MIT License
@@ -23,3 +23,16 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
+class ChemicalSwapMC:
+    def __init__(self):
+        pass
+
+class BasinHopping:
+    def __init__(self):
+        pass
+
+class MDMC:
+    def __init__(self):
+        pass
+

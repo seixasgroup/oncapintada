@@ -1,4 +1,0 @@
-* Markov Chain Monte Carlo (MCMC) simulation framework
-  - Chemical Swap MCMC
-  - Basin Hopping simulation
-  - Molecular Dynamics Monte Carlo (MDMC) simulation
