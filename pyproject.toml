@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "oncapintada"
 version = "26.3.9"         # format: # YY.MM.incremental
 authors = [
-  { name="Leandro Seixas", email="leandro.seixas@proton.me" },
+  { name="Leandro Seixas", email="leandro.rocha@ilum.cnpem.br" },
 ]
 description = "Onça-pintada is a toolkit to simulate and analyze alloys from first-principles methods."
 readme = "README.md"

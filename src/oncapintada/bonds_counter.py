@@ -4,7 +4,7 @@
 # This code is part of Onça-pintada.
 # MIT License
 #
-# Copyright (c) 2026 Leandro Seixas Rocha <leandro.seixas@proton.me> 
+# Copyright (c) 2026 Leandro Seixas Rocha <leandro.rocha@ilum.cnpem.br>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from __future__ import annotations
+# from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, Optional, Tuple, Dict, List, Union
 
