@@ -24,21 +24,49 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# To calculate the enthalpy of mixing based on DSI model.
+import numpy as np
+import pandas as pd
+from ase import Atoms
+from typing import Optional, List
 
-class MixingModel:
-    '''Base class for mixing models of binary alloys.'''
-    def __init__(self):
+
+# To calculate the enthalpy of mixing based on DSI model.
+class BinarySubregularSolution:
+    def __init__(self, energy_matrix: Optional[np.ndarray] = None, dilution: float = 0.0):
+        self.energy_matrix = energy_matrix
+        self.dilution = dilution
+        if self.dilution < 1e-8:
+            raise ValueError("Set the dilution parameter.")
+        
+    def get_energy_matrix(self) -> np.ndarray:
+        return self.energy_matrix
+    
+    def set_energy_matrix(self, energy_matrix: Optional[np.ndarray] = None):
+        self.energy_matrix = energy_matrix
+
+    def get_Mij(self):
         pass
-    
-    def enthalpy_of_mixing(self):
-        '''Calculate the enthalpy of mixing.'''
-        raise NotImplementedError("This method should be implemented by subclasses.")
-    
-    def entropy_of_mixing(self):
-        '''Calculate the entropy of mixing.'''
-        raise NotImplementedError("This method should be implemented by subclasses.")
-    
-    def free_energy_of_mixing(self):
-        '''Calculate the free energy of mixing.'''
-        raise NotImplementedError("This method should be implemented by subclasses.")
+
+# To calculate the enthalpy of mixing based on DSI model for multi-component systems.
+class MultiComponentSubregularSolution:
+    def __init__(self, energy_matrix: Optional[np.ndarray] = None, dilution: float = 0.0):
+        self.energy_matrix = energy_matrix
+        self.dilution = dilution
+        if self.dilution < 1e-8:
+            raise ValueError("Set the dilution parameter.")
+
+
+
+# To generate structures with a given target correlation function using Monte Carlo sampling.
+class ReverseMonteCarlo:
+    def __init__(self, atoms: Optional[Atoms] = None, composition=None, target=None):
+        self.atoms = atoms
+        self.composition = composition
+        self.target = target
+
+# To generate SQS structures for a given composition and lattice type.
+class SQS:
+    def __init__(self, atoms: Optional[Atoms] = None, composition=None, method='monte_carlo'):
+        self.atoms = atoms
+        self.composition = composition
+        self.method = method
