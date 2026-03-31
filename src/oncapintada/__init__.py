@@ -55,7 +55,7 @@ from .subregular_model import BinaryAlloy, MultiComponentAlloy
 
 
 
-def starter():
+def banner():
     print("                                           ")
     print("          ▄▖          ▘  ▗    ▌            ")
     print("          ▌▌▛▌▛▘▀▌▄▖▛▌▌▛▌▜▘▀▌▛▌▀▌          ")
@@ -66,7 +66,7 @@ def starter():
     print("    developed by: Leandro Seixas             ")
     print("    homepage: https://github.com/seixasgroup/oncapintada")
     print("                                                  ")
-    print("--------------------------------------------------")
+    print("-------------------------------------------------------------")
     print("                                                  ")
     print("System:")
     print(f"├── architecture: {platform.machine()}")
@@ -89,7 +89,7 @@ def starter():
     print("                                               ")
 
 
-starter()
+banner()
 
 # if __name__ == "__main__":
-    # starter()
+    # banner()
