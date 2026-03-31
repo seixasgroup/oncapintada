@@ -30,6 +30,8 @@ from ase import Atoms
 from typing import Optional
 from itertools import combinations_with_replacement
 
+kJ = 96.485364               # Conversion factor from eV/atom to kJ/mol (1 eV/atom = 96.485364 kJ/mol)
+R = 8.31446261815324 / 1000  # Universal gas constant in kJ/(mol*K)
 
 class BinaryAlloy:
     '''
@@ -54,17 +56,6 @@ class BinaryAlloy:
         self.energy_matrix = energy_matrix
 
 
-    # @deprecated(reason="This method is inefficient. Use get_Mij instead.")
-    # def get_Mij_deprecated(self):
-    #     M = np.zeros_like(self.energy_matrix)
-    #     x0 = self.dilution
-    #     E = self.energy_matrix
-    #     for i in range(E.shape[0]):
-    #         for j in range(E.shape[1]):
-    #             M[i, j] = E[i, j]  - ( x0 * E[i, i] + (1-x0) * E[j, j] )
-    #     return M
-
-
     def get_Mij(self):
         '''
         Calculate the Mij matrix based on the energy matrix and dilution parameter.
@@ -78,14 +69,37 @@ class BinaryAlloy:
         return M
 
 
-    def get_enthalpy_of_mixing(self, x: np.ndarray) -> np.ndarray:
+    def get_enthalpy_of_mixing(self, x: np.ndarray, unit: str="kJ/mol") -> np.ndarray:
         '''
         Calculate the enthalpy of mixing for a subregular mixing model based on the Mij matrix and composition x.
             H_{mix} = (M[0,1] * x + M[1,0] * (1-x)) * x * (1-x)
         '''
+        if unit not in ["eV/atom", "kJ/mol"]:
+            raise ValueError("Invalid unit. Supported units are 'eV/atom' and 'kJ/mol'.")
+        
         M = self.get_Mij()
-        h = (M[0,1] * x + M[1,0] * (1-x)) * x * (1-x)
+        h = (M[0,1] * x + M[1,0] * (1-x)) * x * (1-x) * kJ  # Convert eV/atom to kJ/mol
+
+        if unit == "eV/atom":
+            h /= kJ  # Convert kJ/mol back to eV/atom
         return h
+    
+    def get_configurational_entropy(self, x: np.ndarray, unit: str="kJ/(mol*K)") -> np.ndarray:
+        '''
+        Calculate the configurational entropy of mixing for a binary alloy based on the composition x.
+            S_{config} = -R * (x * ln(x) + (1-x) * ln(1-x))
+        '''
+        if unit not in ["eV/(atom*K)", "kJ/(mol*K)"]:
+            raise ValueError("Invalid unit. Supported units are 'eV/(atom*K)' and 'kJ/(mol*K)'.")
+        
+        eps = 1e-8                  # Small value to prevent log(0) issues
+        x = np.clip(x, eps, 1-eps)  # Ensure that compositions are not exactly zero to avoid log(0)
+
+        s_config = -R * (x * np.log(x) + (1-x) * np.log(1-x))
+
+        if unit == "eV/(atom*K)":
+            s_config /= kJ          # Convert kJ/(mol*K) to eV/(atom*K)
+        return s_config
 
 
 

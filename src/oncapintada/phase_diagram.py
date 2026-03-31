@@ -233,7 +233,7 @@ class PhaseDiagram:
     # ------------------------------------------------------------------
     # Binodal curve
     # ------------------------------------------------------------------
-    def binodal_curve(self, atol: float = 1e-8, ninterp: int = 20) -> pd.DataFrame:
+    def binodal_curve(self, atol: float = 1e-8, ninterp: int = 10) -> pd.DataFrame:
         """
         Compute the binodal curve (coexistence curve) from G(x, T) using the common tangent construction.
 
@@ -252,8 +252,8 @@ class PhaseDiagram:
         ----------
         atol : float, optional
             Absolute tolerance for numerical comparisons. Default is 1e-8.
-        n : int, optional
-            Number of points for checking the convexity condition. Default is 20.
+        ninterp : int, optional
+            Number of points for checking the convexity condition. Default is 10.
 
         Returns
         -------
@@ -283,7 +283,7 @@ class PhaseDiagram:
 
                     if m <= dGdx[i, iT] + atol and m >= dGdx[j, iT] - atol:
                         # Check convexity condition: line must be below G(x) for all x in (x_i, x_j)
-                        x_mid = np.linspace(x_i, x_j, ninterp)  # n points between x_i and x_j
+                        x_mid = np.linspace(x_i, x_j, ninterp)  # ninterp points between x_i and x_j
                         G_mid_line = G_i + m * (x_mid - x_i)
                         G_mid_actual = np.interp(x_mid, x, G[:, iT])
 

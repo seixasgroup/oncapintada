@@ -56,13 +56,13 @@ from .subregular_model import BinaryAlloy, MultiComponentAlloy
 
 
 def starter():
-    print("     _____                     _     _         _         ")
-    print("    |     |___ ___ ___ ___ ___|_|___| |_ ___ _| |___     ")
-    print("    |  |  |   |  _| .'|___| . | |   |  _| .'| . | .'|    ")
-    print("    |_____|_|_|___|__,|   |  _|_|_|_|_| |__,|___|__,|    ")
-    print("                          |_|                            ")
-    print("                                                         ")
-    print(f"    version: {__version__}                              ")
+    print("                                           ")
+    print("          ▄▖          ▘  ▗    ▌            ")
+    print("          ▌▌▛▌▛▘▀▌▄▖▛▌▌▛▌▜▘▀▌▛▌▀▌          ")
+    print("          ▙▌▌▌▙▖█▌  ▙▌▌▌▌▐▖█▌▙▌█▌          ")
+    print("                    ▌                      ")
+    print("                                           ")
+    print(f"    version: {__version__}                 ")
     print("    developed by: Leandro Seixas             ")
     print("    homepage: https://github.com/seixasgroup/oncapintada")
     print("                                                  ")
