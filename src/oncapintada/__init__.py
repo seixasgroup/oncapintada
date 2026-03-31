@@ -51,7 +51,8 @@ from .bonds_counter import BondsCounter
 from .bonds_model import BondsModel
 from .disordered_alloy import DisorderedAlloyGenerator, DisorderedAlloyConfig
 from .phase_diagram import PhaseDiagram
-from .qca import QCA
+from .qca import QCABinary
+from .subregular_model import BinaryAlloy, MultiComponentAlloy
 
 
 
@@ -60,5 +61,6 @@ __all__ = ['__version__',                                           # from _vers
            'BondsModel',                                            # from bonds_model.py
            'DisorderedAlloyGenerator', 'DisorderedAlloyConfig',     # from disordered_alloy.py
            'PhaseDiagram',                                          # from phase_diagram.py
-           'QCA'                                                    # from qca.py
+           'QCABinary',                                             # from qca.py
+           'BinaryAlloy', 'MultiComponentAlloy'                     # from subregular_model.py
           ]
