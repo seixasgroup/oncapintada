@@ -27,16 +27,20 @@
 import numpy as np
 import pandas as pd
 from ase import Atoms
-from typing import Optional, List
+from typing import Optional, List, deprecated
+from itertools import combinations_with_replacement
 
-
-# To calculate the enthalpy of mixing based on DSI model.
 class BinaryAlloy:
+    '''
+    Class to represent a binary alloy and calculate the enthalpy of mixing based on the subregular mixing model.
+    '''
     def __init__(self, energy_matrix: Optional[np.ndarray] = None, dilution: float = 0.0):
         self.energy_matrix = energy_matrix
+        if self.energy_matrix is not None and self.energy_matrix.shape[0] != self.energy_matrix.shape[1]:
+            raise ValueError("Energy matrix must be square.")
         self.dilution = dilution
-        if self.dilution < 1e-8:
-            raise ValueError("Set the dilution parameter.")
+        if self.dilution < 0.0 or self.dilution > 1.0:
+            raise ValueError("Dilution parameter must be between 0 and 1.")
         
     def get_energy_matrix(self) -> np.ndarray:
         return self.energy_matrix
@@ -44,14 +48,15 @@ class BinaryAlloy:
     def set_energy_matrix(self, energy_matrix: Optional[np.ndarray] = None):
         self.energy_matrix = energy_matrix
 
-    # def get_Mij_deprecated(self):
-    #     M = np.zeros_like(self.energy_matrix)
-    #     x0 = self.dilution
-    #     E = self.energy_matrix
-    #     for i in range(E.shape[0]):
-    #         for j in range(E.shape[1]):
-    #             M[i, j] = E[i, j]  - ( x0 * E[i, i] + (1-x0) * E[j, j] )
-    #     return M
+    @deprecated(reason="This method is inefficient. Use get_Mij instead.")
+    def get_Mij_deprecated(self):
+        M = np.zeros_like(self.energy_matrix)
+        x0 = self.dilution
+        E = self.energy_matrix
+        for i in range(E.shape[0]):
+            for j in range(E.shape[1]):
+                M[i, j] = E[i, j]  - ( x0 * E[i, i] + (1-x0) * E[j, j] )
+        return M
     
     def get_Mij(self):
         '''
@@ -80,5 +85,28 @@ class MultiComponentAlloy:
     def __init__(self, energy_matrix: Optional[np.ndarray] = None, dilution: float = 0.0):
         self.energy_matrix = energy_matrix
         self.dilution = dilution
-        if self.dilution < 1e-8:
-            raise ValueError("Set the dilution parameter.")
+        if self.dilution < 0.0 or self.dilution > 1.0:
+            raise ValueError("Dilution parameter must be between 0 and 1.")
+        
+    
+    def simplex_grid(self, N: int, resolution: int) -> np.ndarray:
+        '''
+        Generate a grid of points on the N-dimensional simplex with a given resolution. Each point represents a composition of the alloy.
+        The simplex is defined as the set of points where the sum of the components is equal to 1 (i.e., x_1 + x_2 + ... + x_N = 1), and each component is non-negative (x_i >= 0 for all i).
+
+        Parameters:
+        -----------
+        N (int): Number of components in the alloy.
+        resolution (int): The number of points to generate along each edge of the simplex.
+
+        Returns:
+        ---------
+        np.ndarray: An array of shape (num_points, N).
+        '''
+        grid = []
+
+        # Generate all combinations of N components that sum to the resolution
+        for combo in combinations_with_replacement(range(N), resolution):
+            point = np.bincount(combo, minlength=N)
+            grid.append(point)
+        return np.array(grid) / resolution
