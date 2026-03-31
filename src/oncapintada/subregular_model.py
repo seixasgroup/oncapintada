@@ -27,7 +27,7 @@
 import numpy as np
 import pandas as pd
 from ase import Atoms
-from typing import Optional, deprecated
+from typing import Optional
 from itertools import combinations_with_replacement
 
 
@@ -54,15 +54,15 @@ class BinaryAlloy:
         self.energy_matrix = energy_matrix
 
 
-    @deprecated(reason="This method is inefficient. Use get_Mij instead.")
-    def get_Mij_deprecated(self):
-        M = np.zeros_like(self.energy_matrix)
-        x0 = self.dilution
-        E = self.energy_matrix
-        for i in range(E.shape[0]):
-            for j in range(E.shape[1]):
-                M[i, j] = E[i, j]  - ( x0 * E[i, i] + (1-x0) * E[j, j] )
-        return M
+    # @deprecated(reason="This method is inefficient. Use get_Mij instead.")
+    # def get_Mij_deprecated(self):
+    #     M = np.zeros_like(self.energy_matrix)
+    #     x0 = self.dilution
+    #     E = self.energy_matrix
+    #     for i in range(E.shape[0]):
+    #         for j in range(E.shape[1]):
+    #             M[i, j] = E[i, j]  - ( x0 * E[i, i] + (1-x0) * E[j, j] )
+    #     return M
 
 
     def get_Mij(self):
