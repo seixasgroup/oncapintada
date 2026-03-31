@@ -27,8 +27,9 @@
 import numpy as np
 import pandas as pd
 from ase import Atoms
-from typing import Optional, List, deprecated
+from typing import Optional, deprecated
 from itertools import combinations_with_replacement
+
 
 class BinaryAlloy:
     '''
@@ -41,12 +42,17 @@ class BinaryAlloy:
         self.dilution = dilution
         if self.dilution < 0.0 or self.dilution > 1.0:
             raise ValueError("Dilution parameter must be between 0 and 1.")
-        
+
+
     def get_energy_matrix(self) -> np.ndarray:
         return self.energy_matrix
-    
+
+
     def set_energy_matrix(self, energy_matrix: Optional[np.ndarray] = None):
+        if energy_matrix is not None and energy_matrix.shape[0] != energy_matrix.shape[1]:
+            raise ValueError("Energy matrix must be square.")
         self.energy_matrix = energy_matrix
+
 
     @deprecated(reason="This method is inefficient. Use get_Mij instead.")
     def get_Mij_deprecated(self):
@@ -57,7 +63,8 @@ class BinaryAlloy:
             for j in range(E.shape[1]):
                 M[i, j] = E[i, j]  - ( x0 * E[i, i] + (1-x0) * E[j, j] )
         return M
-    
+
+
     def get_Mij(self):
         '''
         Calculate the Mij matrix based on the energy matrix and dilution parameter.
@@ -69,7 +76,8 @@ class BinaryAlloy:
         
         M = E - ( x0 * d[:, np.newaxis] + (1 - x0) * d[np.newaxis, :] )
         return M
-    
+
+
     def get_enthalpy_of_mixing(self, x: np.ndarray) -> np.ndarray:
         '''
         Calculate the enthalpy of mixing for a subregular mixing model based on the Mij matrix and composition x.
@@ -80,15 +88,30 @@ class BinaryAlloy:
         return h
 
 
-# To calculate the enthalpy of mixing based on DSI model for multi-component systems.
+
 class MultiComponentAlloy:
     def __init__(self, energy_matrix: Optional[np.ndarray] = None, dilution: float = 0.0):
+        '''
+         Class to represent a multicomponent alloy and calculate the enthalpy of mixing based on the subregular mixing model.
+        '''
         self.energy_matrix = energy_matrix
+        if self.energy_matrix is not None and self.energy_matrix.shape[0] != self.energy_matrix.shape[1]:
+            raise ValueError("Energy matrix must be square.")
         self.dilution = dilution
         if self.dilution < 0.0 or self.dilution > 1.0:
             raise ValueError("Dilution parameter must be between 0 and 1.")
-        
-    
+
+
+    def get_energy_matrix(self) -> np.ndarray:
+        return self.energy_matrix
+
+
+    def set_energy_matrix(self, energy_matrix: Optional[np.ndarray] = None):
+        if energy_matrix is not None and energy_matrix.shape[0] != energy_matrix.shape[1]:
+            raise ValueError("Energy matrix must be square.")
+        self.energy_matrix = energy_matrix
+
+
     def simplex_grid(self, N: int, resolution: int) -> np.ndarray:
         '''
         Generate a grid of points on the N-dimensional simplex with a given resolution. Each point represents a composition of the alloy.
@@ -110,7 +133,8 @@ class MultiComponentAlloy:
             point = np.bincount(combo, minlength=N)
             grid.append(point)
         return np.array(grid) / resolution
-    
+
+
     def get_Mij(self):
         '''
         Calculate the Mij matrix based on the energy matrix and dilution parameter.
@@ -122,11 +146,21 @@ class MultiComponentAlloy:
         
         M = E - ( x0 * d[:, np.newaxis] + (1 - x0) * d[np.newaxis, :] )
         return M
-    
+
+
     def get_enthalpy_of_mixing(self, X: np.ndarray, normalized: bool = True) -> np.ndarray:
         '''
         Calculate the enthalpy of mixing for a multi-component alloy based on the Mij matrix and composition X.
-            H_{mix} = sum_{j=1}^{N} sum_{i=1}^{N-1} (M[i,j] * X[j] + M[j,i] * X[i]) * X[i] * X[j]/(X[i] + X[j])
+            H_{mix} = sum_{j=1}^{N} sum_{i=1}^{N-1} (M[i,j] * X[j] + M[j,i] * X[i]) * X[i] * X[j]/(X[i] + X[j]).
+
+        Parameters:
+        -----------
+        X (np.ndarray): An array of shape (N,) representing the composition of the alloy, where N is the number of components. The elements of X should sum to 1.
+        normalized (bool): If True, the enthalpy of mixing is normalized by the sum of the compositions (X[i] + X[j]). If False, the enthalpy of mixing is calculated without normalization.
+
+        Returns:
+        ---------
+        np.ndarray: The calculated enthalpy of mixing for the given composition X.
         '''
         M = self.get_Mij()        # Matrix of interaction parameters (M_{i[j]})
         N = M.shape[0]            # Number of components
@@ -140,6 +174,5 @@ class MultiComponentAlloy:
                     h += (M[i,j] * X[j] + M[j,i] * X[i]) * X[i] * X[j] / (X[i] + X[j])
                 else:
                     h += (M[i,j] * X[j] + M[j,i] * X[i]) * X[i] * X[j]
-    
         return h
         
