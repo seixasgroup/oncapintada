@@ -11,7 +11,7 @@ authors = [
 description = "Onça-pintada is a toolkit to simulate and analyze alloys from first-principles methods."
 readme = "README.md"
 license = {file = "LICENSE"}                               # MIT License
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     'numpy',
     'pandas',

@@ -66,7 +66,7 @@ def banner():
     print("    developed by: Leandro Seixas             ")
     print("    homepage: https://github.com/seixasgroup/oncapintada")
     print("                                                  ")
-    print("-------------------------------------------------------------")
+    print("------------------------------------------------------------")
     print("                                                  ")
     print("System:")
     print(f"├── architecture: {platform.machine()}")

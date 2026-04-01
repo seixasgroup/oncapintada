@@ -33,21 +33,21 @@ class Vibrational:
     '''Class for vibrational properties of materials.'''
     def __init__(self, vdos: pd.DataFrame, frequency_unit: str = 'cm^-1'):
         self.vdos = vdos
-        self.nu = vdos['Frequency'].values        # frequency in cm^-1
-        self.g_nu = vdos['VDOS'].values           # vibrational density of states (in states/cm^-1)
+        self.nu = vdos['Frequency'].values            # frequency in cm^-1
+        self.g_nu = vdos['VDOS'].values               # vibrational density of states (in states/cm^-1)
         self.frequency_unit = frequency_unit
         if frequency_unit not in ['THz', 'cm^-1', 'eV']:
             raise ValueError("frequency_unit must be either 'THz', 'cm^-1', or 'eV'")
         
         if frequency_unit == 'THz':
-            self.nu_THz = np.array(self.nu, dtype=np.float64)     # frequency in THz
-            self.g_nu_THz = np.array(self.g_nu, dtype=np.float64)    # VDOS in states/THz
+            self.nu_THz = self.nu                     # frequency in THz
+            self.g_nu_THz = self.g_nu                 # VDOS in states/THz
         elif frequency_unit == 'cm^-1':
-            self.nu_THz = np.array(self.nu, dtype=np.float64) * cm_to_THz         # convert frequency to THz
-            self.g_nu_THz = np.array(self.g_nu, dtype=np.float64) / cm_to_THz     # convert VDOS to states/THz
+            self.nu_THz = self.nu * cm_to_THz         # convert frequency to THz
+            self.g_nu_THz = self.g_nu / cm_to_THz     # convert VDOS to states/THz
         elif frequency_unit == 'eV':
-            self.nu_THz = np.array(self.nu, dtype=np.float64) * eV_to_THz         # convert frequency to THz
-            self.g_nu_THz = np.array(self.g_nu, dtype=np.float64) / eV_to_THz     # convert VDOS to states/THz
+            self.nu_THz = self.nu * eV_to_THz         # convert frequency to THz
+            self.g_nu_THz = self.g_nu / eV_to_THz     # convert VDOS to states/THz
 
         self.vibrational_enthalpy = None
         self.vibrational_entropy = None
@@ -78,7 +78,7 @@ class Vibrational:
         g_nu = g_nu[mask]
         x = x[mask]
 
-        enthalpy = 0.5 * h * np.trapz(g_nu * nu, nu) + h * np.trapz(g_nu * nu / (np.exp(x) - 1), nu)
+        enthalpy = np.trapz(g_nu * ( h * nu / 2 + h * nu / (np.exp(x) - 1)), nu)   # in eV
         enthalpy *= kJmol     # convert eV to kJ/mol
         self.vibrational_enthalpy = enthalpy
         return enthalpy
@@ -107,7 +107,7 @@ class Vibrational:
         g_nu = g_nu[mask]
         x = x[mask]
 
-        entropy = R * np.trapz(g_nu * (x / (np.exp(x) - 1) - np.log(1 - np.exp(-x))), nu) # in kJ/(mol*K)
+        entropy = R * np.trapz(g_nu * ( x / (np.exp(x) - 1) - np.log(1 - np.exp(-x)) ), nu)     # in kJ/(mol*K)
         
         self.vibrational_entropy = entropy
         return entropy
@@ -147,13 +147,13 @@ class VibrationalSubregularModel:
     '''Class for vibrational properties of subregular solutions.'''
     def __init__(self,
                  x: np.ndarray,
-                 vdos_A: pd.DataFrame,
-                 vdos_B: pd.DataFrame,
+                 vdos_AA: pd.DataFrame,
+                 vdos_BB: pd.DataFrame,
                  vdos_AB: pd.DataFrame,
                  vdos_BA: pd.DataFrame,
                  frequency_unit: str = 'cm^-1'):
         self.x = x
-        self.vibrational_A = Vibrational(vdos_A, frequency_unit)
-        self.vibrational_B = Vibrational(vdos_B, frequency_unit)
+        self.vibrational_AA = Vibrational(vdos_AA, frequency_unit)
+        self.vibrational_BB = Vibrational(vdos_BB, frequency_unit)
         self.vibrational_AB = Vibrational(vdos_AB, frequency_unit)
         self.vibrational_BA = Vibrational(vdos_BA, frequency_unit)
