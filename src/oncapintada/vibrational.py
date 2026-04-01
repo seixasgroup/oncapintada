@@ -49,9 +49,21 @@ class Vibrational:
             self.nu_THz = self.nu * eV_to_THz         # convert frequency to THz
             self.g_nu_THz = self.g_nu / eV_to_THz     # convert VDOS to states/THz
 
+        self.number_of_modes = self.get_number_of_modes()
         self.vibrational_enthalpy = None
         self.vibrational_entropy = None
         self.vibrational_free_energy = None
+
+
+    def get_number_of_modes(self) -> float:
+        '''Calculate the total number of vibrational modes.
+        
+        Returns
+        -------
+        float
+            Total number of vibrational modes.
+        '''
+        return np.trapz(self.g_nu_THz, self.nu_THz)
     
 
     def get_vibrational_enthalpy(self, T: float) -> float:
