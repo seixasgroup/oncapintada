@@ -26,16 +26,26 @@
 
 import numpy as np
 import pandas as pd
-from .constants import R, h, cm_to_THz, eV_to_THz, kB, kJmol
+from .constants import R, h, cm_to_THz, eV_to_THz, kB, kJmol, cmrec
+from ase import Atoms
+from ase.phonons import Phonons
+from ase.optimize import BFGS
+from ase.filters import UnitCellFilter
+from typing import Optional
 
 
 class Vibrational:
     '''Class for vibrational properties of materials.'''
-    def __init__(self, vdos: pd.DataFrame, frequency_unit: str = 'cm^-1'):
+    def __init__(self, vdos: Optional[pd.DataFrame] = None, frequency_unit: str = 'cm^-1'):
         self.vdos = vdos
-        self.nu = vdos['Frequency'].values            # frequency in cm^-1
-        self.g_nu = vdos['VDOS'].values               # vibrational density of states (in states/cm^-1)
+        if vdos is not None:
+            self.nu = vdos['Frequency'].values            # frequency (in cm^-1, eV, or THz depending on frequency_unit)
+            self.g_nu = vdos['VDOS'].values               # vibrational density of states (in states per frequency unit)
+        else:
+            self.nu = None
+            self.g_nu = None
         self.frequency_unit = frequency_unit
+
         if frequency_unit not in ['THz', 'cm^-1', 'eV']:
             raise ValueError("frequency_unit must be either 'THz', 'cm^-1', or 'eV'")
         
@@ -54,6 +64,61 @@ class Vibrational:
         self.vibrational_entropy = None
         self.vibrational_free_energy = None
 
+    def get_phonons(self,
+                    atoms: Atoms,
+                    calc,
+                    supercell: tuple = (2,2,2),
+                    kpts: tuple = (100,100,1),
+                    npts: int = 3000,
+                    width: float = 5e-4,
+                    xmin: float = 1e-4,
+                    xmax: float = 0.10,
+                    delta: float = 0.01,
+                    fmax: float = 0.001):
+        '''Calculate the phonon density of states (VDOS) using ASE's Phonons class.
+        
+        Parameters
+        ----------
+        atoms : ASE Atoms object
+            The atomic structure for which to calculate the phonons.
+        calc : ASE Calculator
+            The calculator to use for force calculations.
+        supercell : tuple, optional
+            The size of the supercell for phonon calculations (default is (2,2,2)).
+        kpts : tuple, optional
+            The k-point grid for phonon calculations (default is (100,100,1)).
+        npts : int, optional
+            The number of points in the VDOS (default is 3000).
+        width : float, optional
+            The width of the Gaussian smearing for the VDOS (default is 5e-4).
+        xmin : float, optional
+            The minimum frequency for the VDOS (default is 1e-4).
+        xmax : float, optional
+            The maximum frequency for the VDOS (default is 0.10).
+        delta : float, optional
+            Displacement for finite difference calculations (default is 0.01).
+        
+        Returns
+        -------
+        pd.DataFrame
+            A DataFrame containing the frequencies and corresponding VDOS values.
+        '''
+        atoms.calc = calc
+        optim = BFGS(UnitCellFilter(atoms), logfile=None)
+        optim.run(fmax=fmax)
+        ph = Phonons(atoms, calc, supercell=supercell, delta=delta)
+        ph.run()
+        ph.read(acoustic=True)
+        ph.clean()
+        ph_dos = ph.get_dos(kpts=kpts).sample_grid(npts=npts, width=width, xmin=xmin, xmax=xmax)
+        
+        self.nu = ph_dos.get_energies() * cmrec         # frequency in cm^-1
+        self.g_nu = ph_dos.get_weights() / cmrec        # VDOS in states/cm^-1
+        
+        self.vdos = pd.DataFrame({'Frequency': self.nu, 'VDOS': self.g_nu})
+        
+        return self.vdos
+
 
     def get_number_of_modes(self) -> float:
         '''Calculate the total number of vibrational modes.
@@ -63,7 +128,7 @@ class Vibrational:
         float
             Total number of vibrational modes.
         '''
-        return np.trapz(self.g_nu_THz, self.nu_THz)
+        return np.trapz(self.g_nu, self.nu)
     
 
     def get_vibrational_enthalpy(self, T: float) -> float:

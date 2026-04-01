@@ -30,3 +30,4 @@ kB = 8.617333262145e-5                 # Boltzmann constant in eV/K
 h = 4.135667696e-3                     # eV/THz
 cm_to_THz = 0.0299792458               # 1/cm to THz
 eV_to_THz = 1 / h                      # eV to THz
+cmrec = 8065.54                        # 1 eV = 8065.54 cm^-1
