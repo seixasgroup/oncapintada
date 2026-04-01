@@ -64,18 +64,18 @@ class Vibrational:
         self.vibrational_entropy = None
         self.vibrational_free_energy = None
 
-    def get_phonons(self,
-                    atoms: Atoms,
-                    calc,
-                    supercell: tuple = (2,2,2),
-                    kpts: tuple = (100,100,1),
-                    npts: int = 3000,
-                    width: float = 5e-4,
-                    xmin: float = 1e-4,
-                    xmax: float = 0.10,
-                    delta: float = 0.01,
-                    fmax: float = 0.001):
-        '''Calculate the phonon density of states (VDOS) using ASE's Phonons class.
+    def get_vdos(self,
+                 atoms: Atoms,
+                 calc,
+                 supercell: tuple = (2,2,2),
+                 kpts: tuple = (100,100,1),
+                 npts: int = 3000,
+                 width: float = 5e-4,
+                 xmin: float = 1e-4,
+                 xmax: float = 0.10,
+                 delta: float = 0.01,
+                 fmax: float = 0.001) -> pd.DataFrame:
+        '''Calculate the vibrational density of states (VDOS) using ASE's Phonons class.
         
         Parameters
         ----------
@@ -131,17 +131,17 @@ class Vibrational:
         return np.trapz(self.g_nu, self.nu)
     
 
-    def get_vibrational_enthalpy(self, T: float) -> float:
+    def get_vibrational_enthalpy(self, T: np.ndarray) -> np.ndarray:
         '''Calculate the vibrational enthalpy at a given temperature.
         
         Parameters
         ----------
-        T : float
+        T : np.ndarray
             Temperature in Kelvin.
         
         Returns
         -------
-        float
+        np.ndarray
             Vibrational enthalpy in kJ/mol.
 
         '''
@@ -161,17 +161,17 @@ class Vibrational:
         return enthalpy
     
 
-    def get_vibrational_entropy(self, T: float) -> float:
+    def get_vibrational_entropy(self, T: np.ndarray) -> np.ndarray:
         '''Calculate the vibrational entropy at a given temperature.
         
         Parameters
         ----------
-        T : float
+        T : np.ndarray
             Temperature in Kelvin.
         
         Returns
         -------
-        float
+        np.ndarray
             Vibrational entropy in kJ/(mol*K).
         '''
         nu = self.nu_THz
@@ -190,17 +190,17 @@ class Vibrational:
         return entropy
 
 
-    def get_vibrational_free_energy(self, T: float) -> float:
+    def get_vibrational_free_energy(self, T: np.ndarray) -> np.ndarray:
         '''Calculate the vibrational free energy at a given temperature.
         
         Parameters
         ----------
-        T : float
+        T : np.ndarray
             Temperature in Kelvin.
         
         Returns
         -------
-        float
+        np.ndarray
             Vibrational free energy in kJ/mol.
         '''
         if self.vibrational_enthalpy is None:

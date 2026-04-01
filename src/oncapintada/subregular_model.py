@@ -53,7 +53,7 @@ class BinaryAlloy:
         self.energy_matrix = energy_matrix
 
 
-    def get_Mij(self):
+    def get_Mij(self) -> np.ndarray:
         '''
         Calculate the Mij matrix based on the energy matrix and dilution parameter.
             M_ij = E_ij - ( x0 * E_ii + (1-x0) * E_jj )
@@ -80,7 +80,8 @@ class BinaryAlloy:
         if unit == "eV/atom":
             h /= kJmol  # Convert kJ/mol back to eV/atom
         return h
-    
+
+
     def get_configurational_entropy(self, x: np.ndarray, unit: str="kJ/(mol*K)") -> np.ndarray:
         '''
         Calculate the configurational entropy of mixing for a binary alloy based on the composition x.
@@ -97,7 +98,8 @@ class BinaryAlloy:
         if unit == "eV/(atom*K)":
             s_config /= kJmol          # Convert kJ/(mol*K) to eV/(atom*K)
         return s_config
-    
+
+
     def get_gibbs_free_energy_of_mixing(self, x: np.ndarray, t: np.ndarray, unit: str="kJ/mol", unit_s: str="kJ/(mol*K)") -> np.ndarray:
         '''
         Calculate the Gibbs free energy of mixing for a binary alloy based on the enthalpy and configurational entropy.
@@ -177,7 +179,7 @@ class MultiComponentAlloy:
         return np.array(grid) / resolution
 
 
-    def get_Mij(self):
+    def get_Mij(self) -> np.ndarray:
         '''
         Calculate the Mij matrix based on the energy matrix and dilution parameter.
             M_ij = E_ij - ( x0 * E_ii + (1-x0) * E_jj )
@@ -207,13 +209,12 @@ class MultiComponentAlloy:
         M = self.get_Mij()        # Matrix of interaction parameters (M_{i[j]})
         N = M.shape[0]            # Number of components
         eps=1e-8                  # Small value to prevent division by zero
-        X = np.clip(X, eps, 1.0)  # Ensure that compositions are not exactly zero to avoid division by zero
 
         h = 0.0                   # Initialize enthalpy of mixing
         for i in range(N):
             for j in range(i+1, N):
                 if normalized:
-                    h += (M[i,j] * X[j] + M[j,i] * X[i]) * X[i] * X[j] / (X[i] + X[j])
+                    h += (M[i,j] * X[j] + M[j,i] * X[i]) * X[i] * X[j] / (X[i] + X[j] + eps)  # Add small value to prevent division by zero
                 else:
                     h += (M[i,j] * X[j] + M[j,i] * X[i]) * X[i] * X[j]
         return h
