@@ -12,8 +12,9 @@
 [![License: MIT](https://img.shields.io/github/license/seixas-research/oncapintada?color=green&style=for-the-badge)](LICENSE)    [![PyPI](https://img.shields.io/pypi/v/oncapintada?color=red&style=for-the-badge)](https://pypi.org/project/oncapintada/)
 
 # Onça-pintada
-<!-- (pronounced as OHN-sah peen-TAH-dah) -->
-Onça-pintada is a toolkit to simulate and analyze alloys from first-principles methods.
+**Onça-pintada** is a Python package designed to compute thermodynamic properties of binary and multicomponent alloys. It enables the calculation of enthalpy, entropy, and Gibbs free energy of mixing within the subregular solution model, as well as the determination of binodal and spinodal curves for phase diagrams.
+
+The package also supports the evaluation of cluster interactions using the quasi-chemical approximation (QCA), allowing for the description of chemical short-range order (CSRO). Additionally, it provides tools to reconstruct atomistic geometries of alloys based on short-range order metrics, facilitating subsequent calculations of their electronic properties.
 
 # Installation
 
@@ -23,6 +24,8 @@ The easiest way to install Onça-pintada is with pip:
 ```python
 pip install oncapintada
 ```
+
+## From github
 
 # Getting started
 
