@@ -72,7 +72,7 @@ class BinaryAlloy:
         x0 = self.dilution
         d = np.diag(E)  # Extract the diagonal elements (E_ii)
         
-        M = E - ( x0 * d[:, np.newaxis] + (1 - x0) * d[np.newaxis, :] )
+        M = E - ( x0 * d[np.newaxis, :] + (1 - x0) * d[:, np.newaxis] )
         return M
 
 
@@ -263,8 +263,8 @@ class MultiComponentAlloy:
         E = self.energy_matrix
         x0 = self.dilution
         d = np.diag(E)            # Extract the diagonal elements (E_ii)
-        
-        M = E - ( x0 * d[:, np.newaxis] + (1 - x0) * d[np.newaxis, :] )
+
+        M = E - ( x0 * d[np.newaxis, :] + (1 - x0) * d[:, np.newaxis] )
         return M
 
 
