@@ -36,14 +36,14 @@ html_title = "Onça-pintada"
 html_theme = 'furo'                 # 'sphinx_rtd_theme', 'renku', 'shibuya'
 html_static_path = ['_static']
 
-# html_theme_options = {
-#     "light_logo": "logo-light.png", # arquivo em docs/source/_static/
-#     "dark_logo": "logo-dark.png",   # arquivo em docs/source/_static/
-# }
+html_theme_options = {
+    "light_logo": "logo-light.png", # arquivo em docs/source/_static/
+    "dark_logo": "logo-light.png",   # arquivo em docs/source/_static/
+}
 
-# html_favicon = "_static/favicon.png"
+html_favicon = "_static/favicon.png"
 
-# html_css_files = ['custom.css']     
+html_css_files = ['custom.css']     
 
 copyright = 'Leandro Seixas Rocha, 2026'
 html_show_sphinx = False

@@ -8,7 +8,7 @@
 
 /* Aumentar e centralizar o título na barra lateral */
 .sidebar-brand-text {
-    font-size: 3.0rem;    /* Aumenta o tamanho (o padrão é ~1rem) */
+    font-size: 2.0rem;    /* Aumenta o tamanho (o padrão é ~1rem) */
     font-weight: bold;    /* Opcional: deixa em negrito para destacar mais */
     text-align: center;   /* Centraliza o texto */
     display: block;       /* Necessário para que a centralização funcione */

@@ -7,3 +7,5 @@ Onça-pintada
    :caption: Contents:
    :hidden:
 
+   installation
+   quick_start/index
