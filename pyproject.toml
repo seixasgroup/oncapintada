@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "oncapintada"
-version = "26.4.18"                                         # format: # YY.MM.incremental (YY = year, MM = month)
+version = "26.4.19"                                         # format: # YY.MM.incremental (YY = year, MM = month)
 authors = [
   { name="Leandro Seixas Rocha", email="leandro.rocha@ilum.cnpem.br" },
 ]
@@ -31,3 +31,4 @@ classifiers = [
 
 [project.urls]
 "Homepage" = "https://github.com/seixas-research/oncapintada"
+"Documentation" = "https://oncapintada.readthedocs.io"
