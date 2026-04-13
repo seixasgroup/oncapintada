@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "oncapintada"
-version = "26.4.19"                                         # format: # YY.MM.incremental (YY = year, MM = month)
+dynamic = ["version"]
 authors = [
   { name="Leandro Seixas Rocha", email="leandro.rocha@ilum.cnpem.br" },
 ]
 description = "For the investigation of alloys"
 readme = "README.md"
 license = {file = "LICENSE"}                               # MIT License
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     'numpy',
     'pandas',
@@ -32,3 +32,6 @@ classifiers = [
 [project.urls]
 "Homepage" = "https://github.com/seixas-research/oncapintada"
 "Documentation" = "https://oncapintada.readthedocs.io"
+
+[tool.hatch.version]
+path = "src/carcara/_version.py"

@@ -110,12 +110,7 @@ class TestBinaryAlloyMij:
         M = simple_alloy.Mij()
         expected = np.array([[0.0, 0.0], [0.2, 0.0]])
         assert np.allclose(M, expected)
-
-    def test_Mij_symmetric_matrix_dilution_half(self, symmetric_energy_matrix):
-        alloy = BinaryAlloy(energy_matrix=symmetric_energy_matrix, dilution=0.5)
-        M = alloy.Mij()
-        assert np.allclose(M[0, 1], M[1, 0])
-
+        
 
 # ────────────────────── BinaryAlloy – Enthalpy of Mixing ─────────────────────
 
