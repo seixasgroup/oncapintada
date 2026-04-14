@@ -79,16 +79,16 @@ class BinaryAlloy:
 
     
 
-    def enthalpy_of_mixing(self, x: np.ndarray, unit: str="kJ/mol") -> np.ndarray:
+    def enthalpy_of_mixing(self, i: int = 0, j: int = 1, x: np.ndarray = None, unit: str="kJ/mol") -> np.ndarray:
         '''
         Calculate the enthalpy of mixing for a subregular mixing model based on the Mij matrix and composition x.
-            H_{mix} = (M[0,1] * x + M[1,0] * (1-x)) * x * (1-x)
+            H_{mix} = (M[j,i] * (1-x) + M[i,j] * x) * x * (1-x)
         '''
         if unit not in ["eV/atom", "kJ/mol"]:
             raise ValueError("Invalid unit. Supported units are 'eV/atom' and 'kJ/mol'.")
         
         M = self.Mij()
-        h = (M[0,1] * x + M[1,0] * (1-x)) * x * (1-x)
+        h = (M[j,i] * (1-x) + M[i,j] * x) * x * (1-x)
 
         if unit == "kJ/mol":
             h *= kJmol  # Convert eV/atom to kJ/mol
@@ -267,7 +267,7 @@ class MultiComponentAlloy:
         x0 = self.dilution
         d = np.diag(E)            # Extract the diagonal elements (E_ii)
 
-        M = E - ( x0 * d[np.newaxis, :] + (1 - x0) * d[:, np.newaxis] )
+        M = E - ( x0 * d[:, np.newaxis] + (1 - x0) * d[np.newaxis, :] )
         return M
 
 
